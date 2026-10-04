@@ -78,7 +78,7 @@ export async function POST(req: Request) {
           Authorization: `Bearer ${key}`,
         },
         body: JSON.stringify({
-          model: "llama-3.1-8b-instant",
+          model:"openai/gpt-oss-20b",
           temperature: 0.2,
           max_tokens: 400,
           messages: [
