@@ -6,7 +6,7 @@ export default function Contact() {
   const items = [
     { href: `mailto:${profile.email}`, label: "Email", value: profile.email, I: Mail },
     { href: profile.github, label: "GitHub", value: profile.github.replace("https://", ""), I: Github },
-    { href: profile.linkedin, label: "LinkedIn", value: "Connect on LinkedIn", I: Linkedin },
+    { href: "https://www.linkedin.com/in/shubham-raj-6bb8b7273/", label: "LinkedIn", value: "Connect on LinkedIn", I: Linkedin },
   ];
   return (
     <section id="contact" className="section" aria-labelledby="contact-h">
