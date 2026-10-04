@@ -5,7 +5,7 @@ export const profile = {
   location: "Bangalore, India",
   email: "shubhamraj.1937@gmail.com",
   github: "https://github.com/shubhamraj-65",
-  linkedin: "https://www.linkedin.com/in/YOUR_USERNAME/",
+  linkedin: "https://www.linkedin.com/in/shubham-raj-6bb8b7273/",
   resume: "/resume.pdf",
   tagline: "I turn data into meaningful insights using Python, SQL, Excel and Power BI.",
 };
