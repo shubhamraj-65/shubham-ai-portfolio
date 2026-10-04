@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body { background: #08090A; color: #F3F2EF; font-family: var(--font-body), sans-serif; -webkit-font-smoothing: antialiased; }
+::selection { background: #E0142C; color: #fff; }
+:focus-visible { outline: 2px solid #E0142C; outline-offset: 3px; border-radius: 6px; }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.in { opacity: 1; transform: none; }
+.hero-in { animation: heroIn .9s ease both; }
+@keyframes heroIn { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+.glow { background: radial-gradient(60% 60% at 50% 40%, rgba(224,20,44,.28), transparent 70%); }
+.float { animation: float 6s ease-in-out infinite; }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.btn { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1.25rem; border-radius: 9999px; font-weight: 600; font-size: .9rem; transition: transform .2s, background .2s, border-color .2s; }
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: #E0142C; color: #fff; }
+.btn-primary:hover { background: #f01d36; }
+.btn-ghost { border: 1px solid #232427; color: #F3F2EF; }
+.btn-ghost:hover { border-color: #E0142C; }
+.section { max-width: 1180px; margin: 0 auto; padding: 6rem 1.25rem; }
+.eyebrow { font-family: var(--font-mono), monospace; font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: #E0142C; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .hero-in, .float { animation: none; }
+  * { transition-duration: .01ms !important; }
+}
