@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 
-import OpenAI from "openai";
-
 import {
   profile,
   about,
@@ -38,7 +36,7 @@ PORTFOLIO DATA:
 ${context}`;
 
 export async function POST(req: Request) {
-  const key = process.env.OPENAI_API_KEY;
+  const key = process.env.GROQ_API_KEY;
 
   if (!key) {
     return NextResponse.json({
@@ -60,7 +58,7 @@ export async function POST(req: Request) {
       )
       .slice(-10)
       .map((m: any) => ({
-        role: m.role as "user" | "assistant",
+        role: m.role,
         content: String(m.content).slice(0, 1000),
       }));
 
@@ -71,33 +69,55 @@ export async function POST(req: Request) {
       );
     }
 
-    const client = new OpenAI({
-      apiKey: key,
-    });
-
-    const out = await client.chat.completions.create({
-      model: "gpt-4o-mini",
-      temperature: 0.2,
-      max_tokens: 400,
-      messages: [
-        {
-          role: "system",
-          content: system,
+    const response = await fetch(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${key}`,
         },
-        ...history,
-      ],
-    });
+        body: JSON.stringify({
+          model: "llama-3.1-8b-instant",
+          temperature: 0.2,
+          max_tokens: 400,
+          messages: [
+            {
+              role: "system",
+              content: system,
+            },
+            ...history,
+          ],
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error("Groq chat error:", {
+        status: response.status,
+        error: data?.error,
+      });
+
+      return NextResponse.json(
+        {
+          reply:
+            "Sorry, I ran into a problem answering that. Please try again.",
+        },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json({
       reply:
-        out.choices[0]?.message?.content?.trim() || FALLBACK,
+        data?.choices?.[0]?.message?.content?.trim() || FALLBACK,
     });
   } catch (error: any) {
-    console.error("OpenAI chat error:", {
+    console.error("Groq chat error:", {
       message: error?.message,
       status: error?.status,
       code: error?.code,
-      type: error?.type,
     });
 
     return NextResponse.json(
